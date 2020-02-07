@@ -13,9 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 
 public class UserServiceImpl implements UserService {
 
@@ -53,33 +51,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> findAll() {
-        try (Connection connection = connectionRepository.getConnection()) {
-            connection.setAutoCommit(false);
-            List<UserDTO> userDTOS = new ArrayList<>();
-            try {
-                List<User> people = userRepository.findAll(connection);
-                connection.commit();
-                UserDTO userDTO;
-                for (User person : people) {
-                    userDTO = convertUserToDTO(person);
-                    userDTOS.add(userDTO);
-                }
-                return userDTOS;
-            } catch (SQLException e) {
-                connection.rollback();
-                logger.error(e.getMessage(), e);
-                logger.error("Can't find user");
-            }
-        } catch (
-                SQLException e) {
-            logger.error(e.getMessage(), e);
-            logger.error("Can't create connection");
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
     public void deleteByID(UserDTO userDTO) {
         try (Connection connection = connectionRepository.getConnection()) {
             connection.setAutoCommit(false);
@@ -91,7 +62,7 @@ public class UserServiceImpl implements UserService {
             } catch (SQLException e) {
                 connection.rollback();
                 logger.error(e.getMessage(), e);
-                logger.error("Can't updateByID User Information");
+                logger.error("Can't delete by user");
             }
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);

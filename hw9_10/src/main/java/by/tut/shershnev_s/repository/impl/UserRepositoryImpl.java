@@ -3,14 +3,11 @@ package by.tut.shershnev_s.repository.impl;
 import by.tut.shershnev_s.repository.UserRepository;
 import by.tut.shershnev_s.repository.model.User;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -24,21 +21,6 @@ public class UserRepositoryImpl implements UserRepository {
             instance = new UserRepositoryImpl();
         }
         return instance;
-    }
-
-    @Override
-    public List<User> findAll(Connection connection) throws SQLException {
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT * FROM user")
-        ) {
-            List<User> users = new ArrayList<>();
-            while (rs.next()) {
-                User user = getUser(rs);
-                users.add(user);
-            }
-            return users;
-        }
     }
 
     @Override
@@ -81,20 +63,5 @@ public class UserRepositoryImpl implements UserRepository {
             }
             return user;
         }
-    }
-
-    private User getUser(ResultSet rs) throws SQLException {
-        Long id = rs.getLong("id");
-        String username = rs.getString("username");
-        String password = rs.getString("password");
-        boolean isActive = rs.getBoolean("is_active");
-        int age = rs.getInt("age");
-        User user = new User();
-        user.setId(id);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setActive(isActive);
-        user.setAge(age);
-        return user;
     }
 }

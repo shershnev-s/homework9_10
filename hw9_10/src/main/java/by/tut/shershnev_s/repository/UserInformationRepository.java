@@ -10,6 +10,4 @@ public interface UserInformationRepository extends GeneralRepository<UserInforma
 
     UserInformation add(Connection connection, UserInformation userInformation) throws SQLException;
 
-    List<UserInformation> findAll(Connection connection) throws SQLException;
-
 }

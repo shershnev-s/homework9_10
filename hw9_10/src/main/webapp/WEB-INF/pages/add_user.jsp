@@ -8,6 +8,12 @@
 <body>
 <H2>Welcome to create user page</H2>
 <form action="${pageContext.request.contextPath}/add_user" method="post">
+            <c:if test="${not empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:out value="${error}"/>
+                </c:forEach>
+            </c:if>
+        <br>
     Name:
         <br>
             <input type="text" name="name" required maxlength="15" pattern="[A-Za-zА]{1,15}" placeholder="Only eng letters">

@@ -5,12 +5,8 @@ import by.tut.shershnev_s.repository.model.UserInformation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class UserInformationRepositoryImpl implements UserInformationRepository {
 
@@ -40,31 +36,5 @@ public class UserInformationRepositoryImpl implements UserInformationRepository 
             }
             return userInformation;
         }
-    }
-
-    @Override
-    public List<UserInformation> findAll(Connection connection) throws SQLException {
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT * FROM user_information")
-        ) {
-            List<UserInformation> userInformation = new ArrayList<>();
-            while (rs.next()) {
-                UserInformation information = getUserInformation(rs);
-                userInformation.add(information);
-            }
-            return userInformation;
-        }
-    }
-
-    private UserInformation getUserInformation(ResultSet rs) throws SQLException {
-        Long id = rs.getLong("user_id");
-        String address = rs.getString("address");
-        String telephone = rs.getString("telephone");
-        UserInformation userInformation = new UserInformation();
-        userInformation.setUserId(id);
-        userInformation.setAddress(address);
-        userInformation.setTelephone(telephone);
-        return userInformation;
     }
 }

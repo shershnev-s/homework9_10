@@ -15,9 +15,6 @@ import org.apache.logging.log4j.Logger;
 import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class UserInformationServiceImpl implements UserInformationService {
 
@@ -54,36 +51,9 @@ public class UserInformationServiceImpl implements UserInformationService {
         return null;
     }
 
-    @Override
-    public List<UserInformationDTO> findAll() {
-        try (Connection connection = connectionRepository.getConnection()) {
-            connection.setAutoCommit(false);
-            List<UserInformationDTO> UserInformationDTODTOS = new ArrayList<>();
-            try {
-                List<UserInformation> userInformation = userInformationRepository.findAll(connection);
-                connection.commit();
-                UserInformationDTO userInformationDTO;
-                for (UserInformation element : userInformation) {
-                    userInformationDTO = convertUserInformationToDTO(element);
-                    UserInformationDTODTOS.add(userInformationDTO);
-                }
-                return UserInformationDTODTOS;
-            } catch (SQLException e) {
-                connection.rollback();
-                logger.error(e.getMessage(), e);
-                logger.error("Can't find user");
-            }
-        } catch (
-                SQLException e) {
-            logger.error(e.getMessage(), e);
-            logger.error("Can't create connection");
-        }
-        return Collections.emptyList();
-    }
-
     private UserInformation convertDTOToUserInformation(UserInformationDTO userInformationDTO) {
         UserInformation userInformation = new UserInformation();
-        userInformation.setUserId(userInformationDTO.getId());
+        userInformation.setUserId(userInformationDTO.getUserId());
         userInformation.setAddress(userInformationDTO.getAddress());
         userInformation.setTelephone(userInformationDTO.getTelephone());
         return userInformation;

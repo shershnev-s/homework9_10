@@ -8,7 +8,5 @@ import java.util.List;
 
 public interface UserRepository extends GeneralRepository<User> {
 
-    List<User> findAll(Connection connection) throws SQLException;
-
     void deleteByID(Connection connection, Long id) throws SQLException;
 }

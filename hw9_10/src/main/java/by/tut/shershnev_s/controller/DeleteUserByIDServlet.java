@@ -22,6 +22,6 @@ public class DeleteUserByIDServlet extends HttpServlet {
         userDTO.setId(id);
         userService.deleteByID(userDTO);
         String path = getServletContext().getContextPath();
-        resp.sendRedirect(path + "/print_users");
+        resp.sendRedirect(path + "/users");
     }
 }
